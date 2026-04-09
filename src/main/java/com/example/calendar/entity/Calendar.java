@@ -25,4 +25,9 @@ public class Calendar extends BaseEntity {
         this.writerName = writerName;
         this.password = password;
     }
+
+    public void updateCalendar(String calendarName, String writerName){
+        this.calendarName = calendarName;
+        this.writerName = writerName;
+    }
 }

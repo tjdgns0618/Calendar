@@ -1,8 +1,6 @@
 package com.example.calendar.service;
 
-import com.example.calendar.dto.CreateCalendarRequest;
-import com.example.calendar.dto.CreateCalendarResponse;
-import com.example.calendar.dto.GetCalendarResponse;
+import com.example.calendar.dto.*;
 import com.example.calendar.entity.Calendar;
 import com.example.calendar.repository.CalendarRepository;
 import lombok.RequiredArgsConstructor;
@@ -86,7 +84,33 @@ public class CalendarService {
         );
     }
 
+    /**
+     * id에 해당하는 일정의 이름과 작성자명을 변경하는 함수
+     * @param id
+     * @param request
+     * @return 변경된 데이터 응답 DTO
+     */
     @Transactional
-    public
+    public UpdateCalendarResponse update(Long id, UpdateCalendarRequest request) {
+        Calendar calendar = calendarRepository.findById(id).orElseThrow(
+                () -> new IllegalStateException("존재하지 않는 일정입니다.")
+        );
+        boolean correctPassword = calendar.getPassword().equals(request.getPassword());
+        if(!correctPassword){
+            throw new IllegalStateException("맞지 않는 비밀번호 입니다.");
+        }
+
+        calendar.updateCalendar(request.getCalendarName(), request.getWriterName());
+
+        return new UpdateCalendarResponse(
+                calendar.getId(),
+                calendar.getCalendarName(),
+                calendar.getCalendarContents(),
+                calendar.getWriterName(),
+                calendar.getCreatedAt(),
+                calendar.getModifiedAt()
+        );
+    }
+
 
 }
