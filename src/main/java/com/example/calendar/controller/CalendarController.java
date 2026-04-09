@@ -3,13 +3,14 @@ package com.example.calendar.controller;
 
 import com.example.calendar.dto.CreateCalendarRequest;
 import com.example.calendar.dto.CreateCalendarResponse;
+import com.example.calendar.dto.GetCalendarResponse;
 import com.example.calendar.service.CalendarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,5 +28,25 @@ public class CalendarController {
         return ResponseEntity.status(HttpStatus.CREATED).body(calendarService.save(request));
     }
 
+    /**
+     * CalendarService에서 조회 로직 실행후 생성된 응답만 반환함
+     * @RequestParam에 required 속성을 변경해주어 있어도 없어도 되게 해주었습니다. 이로인해 다른 GetMapping 어노테이션이 작동이 가능해졌습니다.
+     * @param writerName
+     * @return 생성된 모든 캘린더 조회 응답
+     */
+    @GetMapping("/calendars")
+    public ResponseEntity<List<GetCalendarResponse>> getAllCalendars(@RequestParam(required = false) String writerName) {
+        return ResponseEntity.status(HttpStatus.OK).body(calendarService.findAllByWriterName(writerName));
+    }
+
+    /**
+     * CalendarService에서 단 건 조회 로직 실행후 생성된 응답만 반환함
+     * @param id
+     * @return 생성된 단 건 캘린더 조회 응답
+     */
+    @GetMapping("/calendars/{id}")
+    public ResponseEntity<GetCalendarResponse> getCalendarById(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(calendarService.findById(id));
+    }
 
 }
