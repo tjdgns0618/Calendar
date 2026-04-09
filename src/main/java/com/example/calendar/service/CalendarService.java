@@ -112,13 +112,22 @@ public class CalendarService {
         );
     }
 
+    /**
+     * id와 요청 DTO의 비밀번호를 검사하여 일치한다면 삭제를 진행하는 함수
+     * @param id
+     * @param request
+     */
     @Transactional
-    public void delete(Long id){
-        boolean existence =  calendarRepository.existsById(id);
+    public void delete(Long id, DeleteCalendarRequest request) {
+        Calendar calendar = calendarRepository.findById(id).orElseThrow(
+                () -> new IllegalStateException("존재하지 않는 일정입니다.")
+        );
+        boolean correctPassword = calendar.getPassword().equals(request.getPassword());
 
-        if(!existence){
-            throw new IllegalStateException("존재하지 않는 일정입니다.");
+        if(!correctPassword){
+            throw new IllegalStateException("맞지 않는 비밀번호 입니다.");
         }
+
         calendarRepository.deleteById(id);
     }
 
