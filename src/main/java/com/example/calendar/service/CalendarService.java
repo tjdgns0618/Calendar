@@ -112,5 +112,14 @@ public class CalendarService {
         );
     }
 
+    @Transactional
+    public void delete(Long id){
+        boolean existence =  calendarRepository.existsById(id);
+
+        if(!existence){
+            throw new IllegalStateException("존재하지 않는 일정입니다.");
+        }
+        calendarRepository.deleteById(id);
+    }
 
 }

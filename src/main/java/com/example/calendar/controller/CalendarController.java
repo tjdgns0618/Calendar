@@ -18,6 +18,7 @@ public class CalendarController {
 
     /**
      * CalendarService에서 생성 로직 실행후 생성된 응답만 반환함
+     *
      * @param request
      * @return 생성된 캘린더 응답
      */
@@ -28,9 +29,10 @@ public class CalendarController {
 
     /**
      * 이름을 key로 사용하여 작성자 이름에 해당하는 모든 일정을 바디로 반환해주는 함수
-     * @RequestParam에 required 속성을 변경해주어 있어도 없어도 되게 해주었습니다. 이로인해 다른 GetMapping 어노테이션이 작동이 가능해졌습니다.
+     *
      * @param writerName
      * @return 생성된 모든 캘린더 조회 응답
+     * @RequestParam에 required 속성을 변경해주어 있어도 없어도 되게 해주었습니다. 이로인해 다른 GetMapping 어노테이션이 작동이 가능해졌습니다.
      */
     @GetMapping("/calendars")
     public ResponseEntity<List<GetCalendarResponse>> getAllCalendars(@RequestParam(required = false) String writerName) {
@@ -39,6 +41,7 @@ public class CalendarController {
 
     /**
      * id를 경로로 해당하는 일정을 반환해주는 함수
+     *
      * @param id
      * @return 생성된 단 건 캘린더 조회 응답
      */
@@ -47,11 +50,27 @@ public class CalendarController {
         return ResponseEntity.status(HttpStatus.OK).body(calendarService.findById(id));
     }
 
+    /**
+     * id를 경로로 해당하는 변경된 함수를 반환해주는 함수
+     * @param id
+     * @param request
+     * @return 변경된 응답
+     */
     @PutMapping("/calendars/{id}")
     public ResponseEntity<UpdateCalendarResponse> updateCalendarById(
             @PathVariable Long id,
             @RequestBody UpdateCalendarRequest request) {
-        return  ResponseEntity.status(HttpStatus.OK).body(calendarService.update(id, request));
+        return ResponseEntity.status(HttpStatus.OK).body(calendarService.update(id, request));
     }
 
+    /**
+     * id를 경로로 해당하는 일정을 삭제하는 함수
+     * @param id
+     * @return NO_CONTENT
+     */
+    @DeleteMapping("/calendars/{id}")
+    public ResponseEntity<Void> deleteCalendarById(@PathVariable Long id) {
+        calendarService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
