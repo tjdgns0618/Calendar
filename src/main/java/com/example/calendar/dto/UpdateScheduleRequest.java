@@ -3,6 +3,8 @@ package com.example.calendar.dto;
 import lombok.Getter;
 
 @Getter
-public class DeleteCalendarRequest {
+public class UpdateScheduleRequest {
+    private String scheduleName;
+    private String author;
     private String password;
 }

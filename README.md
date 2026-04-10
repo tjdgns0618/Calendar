@@ -1,11 +1,11 @@
 # ERD
-<img width="881" height="294" alt="Image" src="https://github.com/user-attachments/assets/5a38d27f-d74f-4ba1-8445-907d63d083a0" />  
+<img width="1332" height="302" alt="Image" src="https://github.com/user-attachments/assets/a0af00d1-600f-4359-bf8e-8ced18241163" />  
 일정 - 댓글
 
 ### 일정 생성 API입니다.  
 목적: 새로운 일정을 등록합니다.  
 메서드: POST  
-엔드포인트: http://localhost:8080/calendars  
+엔드포인트: http://localhost:8080/schedules  
 요청 파라미터: 없음  
 요청 바디: 
 - calendarName: 일정 이름  
@@ -20,7 +20,7 @@
 ### 작성자 기준 일정 전체 조회 API입니다.  
 목적: 해당 작성자가 등록한 전체 일정 목록을 조회합니다.  
 메서드: GET  
-엔드포인트: http://localhost:8080/calendars?writerName="Name"  
+엔드포인트: http://localhost:8080/schedules?writerName="Name"  
 요청 파라미터: writerName (key) - 조회할 작성자의 Name  
 요청 바디: 없음  
 성공 응답: 요청이 성공하면 작성자가 작성한 전체 일정 목록이 포함된 응답을 반환합니다.  
@@ -30,7 +30,7 @@
 ### 일정 단 건 조회 API입니다.  
 목적: ID를 기준으로 특정 일정 1건을 조회합니다.  
 메서드: GET  
-엔드포인트: http://localhost:8080/calendars/{calendarId}  
+엔드포인트: http://localhost:8080/schedules/{calendarId}  
 요청 파라미터: calendarId (path) - 조회할 일정의 ID  
 요청 바디: 없음  
 성공 응답: 요청이 성공하면 해당 ID의 일정 상세 정보를 반환합니다.  
@@ -40,7 +40,7 @@
 ### 일정 수정 API입니다. 
 목적: ID를 기준으로 특정 캘린더 일정 1건을 수정합니다.  
 메서드: PUT  
-엔드포인트: http://localhost:8080/calendars/{id}  
+엔드포인트: http://localhost:8080/schedules/{id}  
 요청 파라미터: id (path) - 수정할 캘린더 일정의 ID  
 요청 바디:  
 - calendarName: 일정 제목  
@@ -53,8 +53,26 @@
 ### 일정 삭제 API입니다.  
 목적: ID를 기준으로 특정 캘린더 일정 1건을 삭제합니다.  
 메서드: DELETE  
-엔드포인트: http://localhost:8080/calendars/{id}  
+엔드포인트: http://localhost:8080/schedules/{id}  
 요청 파라미터: id (path) - 삭제할 캘린더 일정의 ID  
 요청 바디: 없음  
 성공 응답: 요청이 성공하면 빈 응답을 반환합니다.  
 
+---
+
+### 프로젝트 구조
+```
+main
+├─java
+│  └─com
+│      └─example
+│          └─schedule
+│              ├─controller
+│              ├─dto
+│              ├─entity
+│              ├─exception
+│              ├─repository
+│              └─service
+└─resources
+      └─application.properties
+```
