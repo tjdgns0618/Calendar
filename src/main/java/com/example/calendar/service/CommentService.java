@@ -3,7 +3,7 @@ package com.example.calendar.service;
 import com.example.calendar.dto.CreateCommentRequest;
 import com.example.calendar.dto.CreateCommentResponse;
 import com.example.calendar.entity.Comment;
-import com.example.calendar.exception.CommentLimitException;
+import com.example.calendar.exception.CommentLimitOverException;
 import com.example.calendar.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class CommentService {
         int commentCount = commentRepository.countById(scheduleId);
 
         if (commentCount == 10)
-            throw new CommentLimitException("댓글은 10개 초과하게 적을 수 없습니다.");
+            throw new CommentLimitOverException("댓글은 10개 초과하게 적을 수 없습니다.");
 
         Comment comment = new Comment(request.getCommentContent(), request.getAuthor(), request.getPassword(), scheduleId);
 
