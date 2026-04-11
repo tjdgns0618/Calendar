@@ -147,17 +147,16 @@ public class ScheduleService {
     }
 
     /**
-     * id에 해당하는 일정이 존재하는지 true,false를 반환해주는 함수
+     * id에 해당하는 일정이 존재하는지 검사하는 함수
      * @param id 일정 고유번호
-     * @return id에 해당하는 일정이 존재하는지에 대한 boolean값
      */
-    public boolean existsCheckById(Long id) {
-        return scheduleRepository.existsById(id);
+    @Transactional(readOnly = true)
+    public void checkScheduleExistenceById(Long id) {
+        boolean exists = scheduleRepository.existsById(id);
+        if(!exists) {
+            throw new ScheduleNotFoundException("존재하지 않는 일정입니다.");
+        }
     }
 
-
-    public long scheduleCount(Long scheduleId) {
-        return scheduleRepository.count();
-    }
 
 }
