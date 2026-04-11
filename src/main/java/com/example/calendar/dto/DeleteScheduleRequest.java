@@ -1,8 +1,9 @@
 package com.example.calendar.dto;
 
-import lombok.Getter;
-
-@Getter
 public class DeleteScheduleRequest {
     private String password;
+
+    public String getPassword() {
+        return password;
+    }
 }
