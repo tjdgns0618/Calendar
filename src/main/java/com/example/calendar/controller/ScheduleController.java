@@ -82,20 +82,20 @@ public class ScheduleController {
     /**
      * id를 경로로 해당하는 일정을 반환해주는 함수
      *
-     * @param id
+     * @param id 일정의 고유 식별번호
      * @return 생성된 단 건 캘린더 조회 응답
      */
     @GetMapping("/{id}")
     public ResponseEntity<GetScheduleResponse> getCalendarById(@PathVariable Long id) {
-        GetScheduleResponse response = scheduleService.findById(id);
+        GetScheduleResponse response = scheduleService.findOneById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
      * id를 경로로 해당하는 변경된 함수를 반환해주는 함수
      *
-     * @param id
-     * @param request
+     * @param id      일정의 고유 식별번호
+     * @param request 수정 요청을 받은 일정 DTO
      * @return 변경된 응답
      */
     @PutMapping("/{id}")
@@ -104,13 +104,13 @@ public class ScheduleController {
             @RequestBody UpdateScheduleRequest request
     ) {
         UpdateScheduleResponse response = scheduleService.update(id, request);
-        return new  ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
      * id를 경로로 해당하는 일정을 삭제하는 함수
      *
-     * @param id
+     * @param id 일정의 고유 식별번호
      * @return NO_CONTENT
      */
     @DeleteMapping("/{id}")

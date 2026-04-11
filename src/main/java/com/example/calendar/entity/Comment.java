@@ -14,13 +14,14 @@ public class Comment extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
     private String commentContents;
-    private String writerName;
+    private String author;
     private String password;
     private Long id;
 
-    public Comment(String commentContent, String writerName, String password) {
+    public Comment(String commentContent, String author, String password, Long id) {
         this.commentContents = commentContent;
-        this.writerName = writerName;
+        this.author = author;
         this.password = password;
+        this.id = id;
     }
 }

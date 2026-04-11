@@ -41,7 +41,7 @@ public class ScheduleService {
         );
         Schedule savedSchedule = scheduleRepository.save(schedule);
         return new CreateScheduleResponse(
-                savedSchedule.getId(),
+                savedSchedule.getScheduleId(),
                 savedSchedule.getScheduleName(),
                 savedSchedule.getScheduleContent(),
                 savedSchedule.getAuthor(),
@@ -62,7 +62,7 @@ public class ScheduleService {
         List<GetScheduleResponse> dtos = new ArrayList<>();
         for (Schedule schedule : schedules) {
             GetScheduleResponse dto = new GetScheduleResponse(
-                    schedule.getId(),
+                    schedule.getScheduleId(),
                     schedule.getScheduleName(),
                     schedule.getScheduleContent(),
                     schedule.getAuthor(),
@@ -82,12 +82,12 @@ public class ScheduleService {
      * @return id에 해당하는 응답 DTO
      */
     @Transactional(readOnly = true)
-    public GetScheduleResponse findById(Long id) {
+    public GetScheduleResponse findOneById(Long id) {
         Schedule schedule = scheduleRepository.findById(id).orElseThrow(
                 () -> new ScheduleNotFoundException("존재하지 않는 일정입니다.")
         );
         return new GetScheduleResponse(
-                schedule.getId(),
+                schedule.getScheduleId(),
                 schedule.getScheduleName(),
                 schedule.getScheduleContent(),
                 schedule.getAuthor(),
@@ -99,7 +99,7 @@ public class ScheduleService {
     /**
      * id에 해당하는 일정의 이름과 작성자명을 변경하는 함수
      *
-     * @param id 일정 고유번호
+     * @param id      일정 고유번호
      * @param request 업데이트 요청 DTO
      * @return 변경된 데이터 응답 DTO
      */
@@ -114,10 +114,10 @@ public class ScheduleService {
             throw new PasswordNotMatchException("맞지 않는 비밀번호입니다.");
         }
 
-        schedule.updateCalendar(request.getScheduleName(), request.getAuthor());
+        schedule.updateSchedule(request.getScheduleName(), request.getAuthor());
 
         return new UpdateScheduleResponse(
-                schedule.getId(),
+                schedule.getScheduleId(),
                 schedule.getScheduleName(),
                 schedule.getScheduleContent(),
                 schedule.getAuthor(),
@@ -129,8 +129,8 @@ public class ScheduleService {
     /**
      * id와 요청 DTO의 비밀번호를 검사하여 일치한다면 삭제를 진행하는 함수
      *
-     * @param id
-     * @param request
+     * @param id      일정 고유번호
+     * @param request 비밀번호 확인용 DTO
      */
     @Transactional
     public void delete(Long id, DeleteScheduleRequest request) {
@@ -145,5 +145,18 @@ public class ScheduleService {
 
         scheduleRepository.deleteById(id);
     }
+
+    /**
+     * id에 해당하는 일정이 존재하는지 검사하는 함수
+     * @param id 일정 고유번호
+     */
+    @Transactional(readOnly = true)
+    public void checkScheduleExistenceById(Long id) {
+        boolean exists = scheduleRepository.existsById(id);
+        if(!exists) {
+            throw new ScheduleNotFoundException("존재하지 않는 일정입니다.");
+        }
+    }
+
 
 }

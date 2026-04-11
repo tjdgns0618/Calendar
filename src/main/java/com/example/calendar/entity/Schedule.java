@@ -16,7 +16,7 @@ public class Schedule extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long scheduleId;
     private String scheduleName;
     private String scheduleContent;
     private String author;
@@ -29,7 +29,7 @@ public class Schedule extends BaseEntity {
         this.password = password;
     }
 
-    public void updateCalendar(String scheduleName, String author){
+    public void updateSchedule(String scheduleName, String author){
         this.scheduleName = scheduleName;
         this.author = author;
     }
