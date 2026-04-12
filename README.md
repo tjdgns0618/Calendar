@@ -1,5 +1,5 @@
 # ERD
-<img width="1332" height="302" alt="Image" src="https://github.com/user-attachments/assets/a0af00d1-600f-4359-bf8e-8ced18241163" />  
+<img width="1074" height="236" alt="Image" src="https://github.com/user-attachments/assets/b0e7f136-2a68-41db-947d-e3a6bef602aa" />  
 일정 - 댓글
 
 ### 일정 생성 API입니다.  
