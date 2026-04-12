@@ -2,8 +2,7 @@ package com.example.calendar.dto;
 
 import java.time.LocalDateTime;
 
-public class CreateCommentResponse {
-
+public class GetCommentResponse {
     private final Long commentId;
     private final String commentContent;
     private final String author;
@@ -11,7 +10,7 @@ public class CreateCommentResponse {
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 
-    public CreateCommentResponse(Long commentId, String commentContent, String author, Long scheduleId, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    public GetCommentResponse(Long commentId, String commentContent, String author, Long scheduleId, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.commentId = commentId;
         this.commentContent = commentContent;
         this.author = author;
@@ -43,5 +42,4 @@ public class CreateCommentResponse {
     public LocalDateTime getModifiedAt() {
         return modifiedAt;
     }
-
 }

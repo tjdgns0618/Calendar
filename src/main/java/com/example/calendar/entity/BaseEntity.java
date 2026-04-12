@@ -1,14 +1,12 @@
 package com.example.calendar.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-@Getter
 // MappedSuperclass의 역할 : 모든 데이터 테이블 무조건 공통적으로 들어가야하는
 // Auditing필드들을 한곳에 모아둘때 사용하는 어노테이션
 @MappedSuperclass
@@ -24,11 +22,17 @@ public abstract class BaseEntity {
     // 변경이 있을시 UPDATE를 안해준다.
     // default = true 상태
     @Column(updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
 
     // 이 필드를 포함하는 엔티티가 수정된 날짜를 나타내는 필드로 선언해준다.
     @LastModifiedDate
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime modifiedAt;
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getModifiedAt() {
+        return modifiedAt;
+    }
 }

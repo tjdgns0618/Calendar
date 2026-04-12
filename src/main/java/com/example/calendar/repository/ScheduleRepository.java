@@ -7,5 +7,12 @@ import java.util.List;
 
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     // 이름에 해당하는 모든 데이터 찾기용
-    List<Schedule> findAllByAuthor(String author);
+
+    /**
+     * SELECT * FROM schedules WHERE author = author
+     *
+     * @param author 작성자명
+     * @return 해당 작성자가 작성한 모든 일정
+     */
+    List<Schedule> findAllSchedulesByAuthor(String author);
 }
