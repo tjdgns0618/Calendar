@@ -54,7 +54,7 @@ public class ScheduleController {
         // 2. BodyBuilder형 변수 builder 생성하고 HttpStatus.CREATED를 저장해준다.
         // ResponseEntity 안에 BodyBuilder가 있는 이유는 다른곳에서는
         // 절대 안쓰고 ResponseEntity 안에서만 사용할거라고 생각하고 만들었기 때문
-        // 이는 완전히 완성된 응답용 객체가 아닌 조립중인 BodyVBuilder이다.
+        // 이는 완전히 완성된 응답용 객체가 아닌 조립중인 BodyBuilder이다.
         ResponseEntity.BodyBuilder builder = ResponseEntity.status(HttpStatus.CREATED);
 
         // CREATED가 찍혀있는 BodyBuilder에 DTO를 집어 넣는다.
@@ -97,9 +97,7 @@ public class ScheduleController {
 
         ResponseEntity.BodyBuilder builder = ResponseEntity.status(HttpStatus.OK);
 
-        ResponseEntity<GetScheduleWithCommentsResponse> responseEntity = builder.body(response);
-
-        return responseEntity;
+        return builder.body(response);
     }
 
     /**
@@ -118,9 +116,7 @@ public class ScheduleController {
 
         ResponseEntity.BodyBuilder builder = ResponseEntity.status(HttpStatus.OK);
 
-        ResponseEntity<UpdateScheduleResponse> responseEntity = builder.body(response);
-
-        return responseEntity;
+        return builder.body(response);
     }
 
     /**
