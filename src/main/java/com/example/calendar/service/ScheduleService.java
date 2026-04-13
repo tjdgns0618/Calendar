@@ -78,14 +78,12 @@ public class ScheduleService {
     /**
      * id에 해당하는 일정을 조회하는 메서드
      *
-     * @param id 일정 고유 식별 번호
+     * @param scheduleId 일정 고유 식별 번호
      * @return id에 해당하는 응답 DTO
      */
     @Transactional(readOnly = true)
-    public GetScheduleWithCommentsResponse findOneById(Long id, List<GetCommentResponse> comments) {
-        Schedule schedule = scheduleRepository.findById(id).orElseThrow(
-                () -> new ScheduleNotFoundException("존재하지 않는 일정입니다.")
-        );
+    public GetScheduleWithCommentsResponse findOneById(Long scheduleId, List<GetCommentResponse> comments) {
+        Schedule schedule = findScheduleById(scheduleId);
 
         return new GetScheduleWithCommentsResponse(
                 schedule.getScheduleId(),
@@ -107,18 +105,11 @@ public class ScheduleService {
      */
     @Transactional
     public UpdateScheduleResponse update(Long scheduleId, UpdateScheduleRequest request) {
-        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(
-                () -> new ScheduleNotFoundException("존재하지 않는 일정입니다.")
-        );
+        Schedule schedule = findScheduleById(scheduleId);
 
         String requestPassword = request.getPassword();
-        String storedPassword = schedule.getPassword();
 
-        boolean correctPassword = requestPassword.equals(storedPassword);
-
-        if (!correctPassword) {
-            throw new PasswordNotMatchException("맞지 않는 비밀번호입니다.");
-        }
+        passwordAuthentication(scheduleId, requestPassword);
 
         String updateRequestName = request.getScheduleName();
         String updateAuthor = request.getAuthor();
@@ -138,25 +129,18 @@ public class ScheduleService {
     /**
      * ID와 요청 DTO의 비밀번호를 검사하여 일치한다면 삭제를 진행하는 메서드
      *
-     * @param id      일정 고유 식별 번호
+     * @param scheduleId      일정 고유 식별 번호
      * @param request 비밀번호 확인용 요청 DTO
      */
     @Transactional
-    public void delete(Long id, DeleteScheduleRequest request) {
-        Schedule schedule = scheduleRepository.findById(id).orElseThrow(
-                () -> new ScheduleNotFoundException("존재하지 않는 일정입니다.")
-        );
+    public void delete(Long scheduleId, DeleteScheduleRequest request) {
+        Schedule schedule = findScheduleById(scheduleId);
 
         String requestPassword = request.getPassword();
-        String storedPassword = schedule.getPassword();
 
-        boolean correctPassword = requestPassword.equals(storedPassword);
+        passwordAuthentication(scheduleId, requestPassword);
 
-        if (!correctPassword) {
-            throw new PasswordNotMatchException("맞지 않는 비밀번호입니다.");
-        }
-
-        scheduleRepository.deleteById(id);
+        scheduleRepository.deleteById(scheduleId);
     }
 
     /**
@@ -172,5 +156,30 @@ public class ScheduleService {
         }
     }
 
+    /**
+     * 입력받은 ID에 해당하는 일정이 존재하는지 검사하고 엔티티를 반환하는 메서드
+     * @param scheduleId 일정 고유 식별 번호
+     * @return DB에서 찾은 ID에 해당하는 엔티티
+     */
+    @Transactional
+    public Schedule findScheduleById(Long scheduleId) {
+        return scheduleRepository.findById(scheduleId).orElseThrow(
+                () -> new ScheduleNotFoundException("존재하지 않는 일정입니다.")
+        );
+    }
 
+    /**
+     * ID에 해당하는 일정의 비밀번호를 검사하는 메서드
+     * @param scheduleId DB에서 찾을 일정의 ID
+     * @param password   일정과 검사할 비밀번호
+     */
+    @Transactional
+    public void passwordAuthentication(Long scheduleId, String password) {
+        Schedule schedule = findScheduleById(scheduleId);
+
+        String inputPassword = schedule.getPassword();
+
+        if(!inputPassword.equals(password))
+            throw new PasswordNotMatchException("맞지 않는 비밀번호입니다.");
+    }
 }
