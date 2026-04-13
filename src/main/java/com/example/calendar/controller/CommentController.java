@@ -15,13 +15,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/schedules")
 public class CommentController {
     private final CommentService commentService;
-    private final ScheduleService scheduleService;
 
     // 생성자에서 의존성 주입을 이뤄주는 어노테이션
     @Autowired
-    public CommentController(CommentService commentService, ScheduleService scheduleService) {
+    public CommentController(CommentService commentService) {
         this.commentService = commentService;
-        this.scheduleService = scheduleService;
     }
 
     /**
@@ -36,8 +34,6 @@ public class CommentController {
             @PathVariable Long scheduleId,
             @RequestBody CreateCommentRequest request
     ) {
-        // 해당 고유 번호에 일정이 존재하는지 검사하는 메서드
-        scheduleService.checkScheduleExistenceById(scheduleId);
         // 일정에 새로운 댓글을 DB에 저장하고, 그 결과를 응답 DTO로 반환하는 메서드
         CreateCommentResponse response = commentService.saveComment(scheduleId, request);
         // DB에서 생성을 성공했음을 클라이언트에게 알려주기 위해 상태를 저장

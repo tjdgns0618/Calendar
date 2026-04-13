@@ -5,7 +5,9 @@ import com.example.calendar.dto.CreateCommentResponse;
 import com.example.calendar.dto.GetCommentResponse;
 import com.example.calendar.entity.Comment;
 import com.example.calendar.exception.CommentLimitOverException;
+import com.example.calendar.exception.ScheduleNotFoundException;
 import com.example.calendar.repository.CommentRepository;
+import com.example.calendar.repository.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +22,11 @@ public class CommentService {
     // 스프링 서버가 켜질 때, 스프링 데이터 JPA가 이 인터페이스를 발견하고 그 자리에 프록시라는 가짜 구현체 클래스를 채워 넣는다.
     // 서비스가 의존성 주입을 받은 이 CommentRepository는 스프링이 실행 시점에 동적으로 만들어낸 프록시 객체가 되는거다.
     private final CommentRepository commentRepository;
-
+    private final ScheduleRepository scheduleRepository;
     @Autowired
-    public CommentService(CommentRepository commentRepository) {
+    public CommentService(CommentRepository commentRepository, ScheduleRepository scheduleRepository) {
         this.commentRepository = commentRepository;
+        this.scheduleRepository = scheduleRepository;
     }
 
     /**
@@ -35,6 +38,11 @@ public class CommentService {
      */
     @Transactional
     public CreateCommentResponse saveComment(Long scheduleId, CreateCommentRequest request) {
+        boolean existence = scheduleRepository.existsById(scheduleId);
+
+        if(!existence)
+            throw new ScheduleNotFoundException("존재하지 않는 일정입니다.");
+
         // 해당 ID에 존재하는 댓글의 갯수
         int commentCount = commentRepository.countByScheduleId(scheduleId);
 
