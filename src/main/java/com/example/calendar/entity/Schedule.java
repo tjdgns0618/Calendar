@@ -1,5 +1,6 @@
 package com.example.calendar.entity;
 
+import com.example.calendar.exception.PasswordNotMatchException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -31,6 +32,11 @@ public class Schedule extends BaseEntity {
     public void updateSchedule(String scheduleName, String author) {
         this.scheduleName = scheduleName;
         this.author = author;
+    }
+
+    public void passwordAuthentication(String password) {
+        if(!this.password.equals(password))
+            throw new PasswordNotMatchException("맞지 않는 비밀번호입니다.");
     }
 
     public Long getScheduleId() {
