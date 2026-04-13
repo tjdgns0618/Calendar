@@ -5,10 +5,17 @@ package com.example.calendar.dto;
 // Jackson이 무엇인가?? 프론트엔드가 자바를 모름에도 불구하고 JSON 형태로 받을수 있도록
 // 자바 객체를 번역해주는 역할을 하는 라이브러리이다.
 public class CreateScheduleRequest {
-    private String scheduleName;
-    private String scheduleContents;
-    private String author;
-    private String password;
+    private final String scheduleName;
+    private final String scheduleContents;
+    private final String author;
+    private final String password;
+
+    public CreateScheduleRequest(String scheduleName, String scheduleContents, String author, String password) {
+        this.scheduleName = scheduleName;
+        this.scheduleContents = scheduleContents;
+        this.author = author;
+        this.password = password;
+    }
 
     public String getScheduleName() {
         return scheduleName;

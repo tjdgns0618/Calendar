@@ -1,7 +1,11 @@
 package com.example.calendar.dto;
 
 public class DeleteScheduleRequest {
-    private String password;
+    private final String password;
+
+    public DeleteScheduleRequest(String password) {
+        this.password = password;
+    }
 
     public String getPassword() {
         return password;

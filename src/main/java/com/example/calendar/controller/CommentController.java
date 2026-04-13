@@ -43,8 +43,6 @@ public class CommentController {
         // DB에서 생성을 성공했음을 클라이언트에게 알려주기 위해 상태를 저장
         ResponseEntity.BodyBuilder builder = ResponseEntity.status(HttpStatus.CREATED);
         // 생성된 응답 DTO를 바디에 담아서 최종 객체를 만듬
-        ResponseEntity<CreateCommentResponse> responseEntity = builder.body(response);
-
-        return responseEntity;
+        return builder.body(response);
     }
 }

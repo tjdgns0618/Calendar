@@ -1,9 +1,15 @@
 package com.example.calendar.dto;
 
 public class UpdateScheduleRequest {
-    private String scheduleName;
-    private String author;
-    private String password;
+    private final String scheduleName;
+    private final String author;
+    private final String password;
+
+    public UpdateScheduleRequest(String scheduleName, String author, String password) {
+        this.scheduleName = scheduleName;
+        this.author = author;
+        this.password = password;
+    }
 
     public String getScheduleName() {
         return scheduleName;
