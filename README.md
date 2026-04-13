@@ -1,3 +1,10 @@
+아래의 순서로 적혀있습니다.
+1. ERD 이미지
+2. API 명세서
+3. 프로젝트 구조
+4. 3-Layer-Architecture
+5. 데이터 수신 어노테이션 3개
+
 # ERD
 <img width="1074" height="236" alt="Image" src="https://github.com/user-attachments/assets/b0e7f136-2a68-41db-947d-e3a6bef602aa" />  
 일정 - 댓글
